@@ -1,0 +1,123 @@
+def door_control(door_open):
+    print("\nCONTROL DE PUERTA CON FACE ID")
+    try:
+        face_id = input("¿Deseas escanear tu cara? (si/no): ").lower()
+        if face_id == "si":
+            door_open = True
+            print("Cara reconocida. Puerta abierta correctamente.")
+        elif face_id == "no":
+            door_open = False
+            print("Acceso denegado. Puerta cerrada.")
+        else:
+            print("Opción no válida.")
+    except ValueError:
+        print("Error: Valor incorrecto.")
+    return door_open
+
+
+def fire_alarm_control(fire_alarm_on):
+    print("\nCONTROL DE ALARMA DE INCENDIOS")
+    try:
+        co2_level = float(input("Introduce el nivel de CO2 detectado (ppm): "))
+        if co2_level >= 1000:
+            fire_alarm_on = True
+            print("Alarma activada: Nivel de CO2 alto.")
+        else:
+            fire_alarm_on = False
+            print("Nivel de CO2 normal. Alarma apagada.")
+    except ValueError:
+        print("Error: Debes introducir un número válido.")
+    return fire_alarm_on
+
+
+def sprinkler_control(sprinkler_on):
+    print("\nCONTROL DE ASPERSOR")
+    try:
+        option = input("¿Deseas activar el riego manualmente? (si/no): ").lower()
+        if option == "si":
+            sprinkler_on = True
+            print("Aspersor encendido. Regando las plantas.")
+        elif option == "no":
+            sprinkler_on = False
+            print("Aspersor apagado.")
+        else:
+            print("Opción no válida.")
+    except ValueError:
+        print("Error: Valor incorrecto.")
+    return sprinkler_on
+
+
+def extinguisher_control(fire_alarm_on, extinguisher_on):
+    print("\nCONTROL DE EXTINTOR AUTOMÁTICO")
+    if fire_alarm_on:
+        extinguisher_on = True
+        print("Extintor activado automáticamente por la alarma.")
+    else:
+        extinguisher_on = False
+        print("No hay alarma activa. Extintor en reposo.")
+    return extinguisher_on
+
+
+def show_status(door_open, fire_alarm_on, sprinkler_on, extinguisher_on):
+    print("\nESTADO ACTUAL DE LA CASA")
+    if door_open:
+        print("Puerta: Abierta")
+    else:
+        print("Puerta: Cerrada")
+
+    if fire_alarm_on:
+        print("Alarma de incendios: Activa")
+    else:
+        print("Alarma de incendios: Apagada")
+
+    if sprinkler_on:
+        print("Aspersor: Encendido")
+    else:
+        print("Aspersor: Apagado")
+
+    if extinguisher_on:
+        print("Extintor: Activado")
+    else:
+        print("Extintor: Reposo")
+
+
+def main_menu():
+    door_open = False
+    fire_alarm_on = False
+    sprinkler_on = False
+    extinguisher_on = False
+
+    while True:
+        print("\nSISTEMA DOMÓTICO")
+        print("1. Control de puerta (Face ID)")
+        print("2. Control de alarma de incendios (CO2)")
+        print("3. Control de aspersor automático")
+        print("4. Control de extintor automático")
+        print("5. Mostrar estado de la casa")
+        print("6. Salir")
+
+        try:
+            option = int(input("Elige una opción: "))
+
+            if option == 1:
+                door_open = door_control(door_open)
+            elif option == 2:
+                fire_alarm_on = fire_alarm_control(fire_alarm_on)
+            elif option == 3:
+                sprinkler_on = sprinkler_control(sprinkler_on)
+            elif option == 4:
+                extinguisher_on = extinguisher_control(fire_alarm_on, extinguisher_on)
+            elif option == 5:
+                show_status(door_open, fire_alarm_on, sprinkler_on, extinguisher_on)
+            elif option == 6:
+                print("Saliendo del sistema domótico...")
+                break
+            else:
+                print("Opción no válida, elige entre 1 y 6.")
+
+        except ValueError:
+            print("Error: Debes introducir un número.")
+
+
+if __name__ == "__main__":
+    main_menu()
