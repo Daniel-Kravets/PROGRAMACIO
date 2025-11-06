@@ -1,0 +1,66 @@
+from openai import OpenAI
+
+rol = None
+
+def consultar_chatgpt(mensaje, rol, modelo="gpt-3.5-turbo"):
+    try:
+        client = OpenAI(api_key="aqui va mi clave")
+
+        respuesta = client.chat.completions.create(
+            model=modelo,
+            messages=[
+                {"role": "system", "content": rol},
+                {"role": "user", "content": mensaje}
+            ]
+        )
+
+        return respuesta.choices[0].message.content
+
+    except Exception as e:
+        return f"⚠️ Error al conectar con la API: {e}"
+    
+
+def menu():
+    global rol
+    while True:
+        print("Bienvenido al menu del chat, elige una opcion para continuar!:")
+        print("\n1. Hablar con el chat")
+        print("\n2. Cambiar rol del asistente (formato: asistente (rol))")
+        print("\n3. Sortir del programa")
+        try:
+
+            opcio=input("Introdueix quina opcio vols (1-3): ")
+            match opcio:
+                case "1":
+                    if not rol:
+                        rol=input("Que tipo de asistente quieres que sea? (formato: asistente (rol)): ")
+                        print(f" Has elegido el asistente:{rol}")
+                    sortir=""
+                    while sortir!="sortir":
+                        mensaje=input("Pregúntame lo que quieras!: ")
+                        respuesta = consultar_chatgpt(mensaje,rol)
+                        print("ChatGPT:", respuesta)
+                        sortir=input("Si vols sortir al menu principal introudeix (sortir), si no, introdueix (continuar): ")
+                        sortir=sortir.lower()
+        
+                case "2":
+
+                    rol=input("Que tipo de asistente quieres que sea?: ")
+
+                    print(f" Has elegido el asistente:{rol}")
+
+                    
+                case "3":
+                    print("Adios!")
+                    break
+        except ValueError:
+            print("Error de formato")
+menu()
+
+
+    
+
+
+
+
+
